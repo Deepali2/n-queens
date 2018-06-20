@@ -5,7 +5,6 @@
 (function() {
 
   window.Board = Backbone.Model.extend({
-
     initialize: function (params) {
       if (_.isUndefined(params) || _.isNull(params)) {
         console.log('Good guess! But to use the Board() constructor, you must pass it an argument in one of the following formats:');
@@ -78,28 +77,56 @@
     // --------------------------------------------------------------
     //
     // test if a specific row on this board contains a conflict
-    hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+    
+    hasRowConflictAt: function(rowIndex) {  
+      var row = this.get(rowIndex);
+      var sumOfAllNumbers = row.reduce(function(acc, nextItem){ return acc + nextItem; });
+      return sumOfAllNumbers > 1;
+
+      // return this.get(rowIndex).reduce(function(a, n) { return (a + n) }) > 1;
+      // var board = this.rows();       
+      // for (var i = 0; i < board[rowIndex].length; i++) {
+      //   if (board[rowIndex][i] === 1) {
+      //     return true;
+      //   }
+      // }
+      // return false; 
     },
 
     // test if any rows on this board contain conflicts
-    hasAnyRowConflicts: function() {
-      return false; // fixme
+    hasAnyRowConflicts: function() {       
+      var board = this.rows();                   
+      for (var i = 0; i < board.length; i++) {        
+        if (this.hasRowConflictAt(i) === true) {
+          return true;
+        }
+      }
+      return false; 
     },
-
-
 
     // COLUMNS - run from top to bottom
     // --------------------------------------------------------------
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+      // var board = this.rows();      
+      // for (var i = 0; i < board.length; i++) {
+      //   if (board[i][colIndex] === 1) {
+      //     return false;
+      //   }
+      // }
+      // return true;
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      var board = this.rows();
+      for (var i = 0; i < board.length; i++) {
+        if (this.hasColConflictAt(i) === true) {
+          return true;
+        }
+      }
+      return false; 
     },
 
 
